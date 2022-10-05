@@ -26,22 +26,15 @@ To learn more about registering drivers checkout the [documentation](https://doc
 | `GET`  | `/health`         | Should be used for readiness probe. |
 
 
-## Configuration
-
-Configuration sources:
-* **Environment variables** (override default configuration from YAML file)
-* **Command-line arguments** (override all other settings; use `--help` switch to see available commands and options)
-
-| Flag | Variable          | Default  | Description                                                            |
-|------|-------------------|----------|------------------------------------------------------------------------|
-| -h   | `HOST`            | `''`     | The ip to listen for incoming requests on (`''` = accept all).         |
-| -p   | `PORT`            | `8080`   | The port to listen for the incoming requests on (default is 8080).     |
-| -l   | `LOG_LEVEL`       | `'info'` | The level of logging expected (`'info'`,`'warn'`,`'error'`,`'debug'`). |
-| -m   | `FAKE_AWS_CLIENT` | `false`  | Use the mock AWS API (for unitests).                                   |
-
-
+## Installing the requirements
+```bash
+pip3 install poetry
+poetry install
+```
 
 ## Running the server
 
-```go run ./ [-c <config_file>] [-h <host>] [-p <port>] -```
+```bash
+poetry run uvicorn main:app --host 0.0.0.0 --port 8080
+```
 

@@ -13,7 +13,7 @@ from .utils import is_valid_id, get_credentials, cookie_decode, cookie_encode
 router = APIRouter()
 
 
-@router.put('/s3/{GUResID:str}',
+@router.put('/{GUResID:str}',
             responses={'200': {'model': DriverOutputs}, '400': {'model': str}, '422': {'model': str}})
 async def upsert_s3(GUResID: str,
                     inputs: DriverInputs,
@@ -86,7 +86,7 @@ async def upsert_s3(GUResID: str,
     return JSONResponse(res.dict(by_alias=True, exclude_none=True, exclude_unset=True), headers={'Set-Humanitec-Driver-Cookie': encoded_cookie})
 
 
-@router.delete('/s3/{GUResID:str}',
+@router.delete('/{GUResID:str}',
                responses={'200': {'model': DriverOutputs}, '400': {'model': str}, '422': {'model': str}})
 async def delete_s3(GUResID: str,
                     encoded_cookie: Union[str, None] = Header(default=None, alias="Humanitec-Driver-Cookie")):  # todo: custom error on json fail (422, "Unable to process the request")
@@ -100,17 +100,17 @@ async def delete_s3(GUResID: str,
     except ValueError as e:
         return Response(status_code=400, content=e.args[0])
     if (cookie.GUResID is None) or (cookie.GUResID == '') or (cookie.GUResID != GUResID):
-        return Response(status_code=404, content="Not Found")
+        return Response(status_code=404, content='Not Found')
     if cookie.Type != 's3':
-        return Response(status_code=400, content="Invalid resource type")
-    if (bucket_name := cookie.Resource.Values.get("bucket", "")) is "":
-        return Response(status_code=400, content="Missing bucket name")
+        return Response(status_code=400, content='Invalid resource type')
+    if (bucket_name := cookie.Resource.Values.get('bucket', '')) == '':
+        return Response(status_code=400, content='Missing bucket name')
     if (aws_access_key_id := cookie.AWSAccessKeyID) is None:
-        return Response(status_code=400, content="Missing AWSAccessKeyID")
+        return Response(status_code=400, content='Missing AWSAccessKeyID')
     if (aws_secret_access_key := cookie.AWSAccessSecret) is None:
-        return Response(status_code=400, content="Missing AWSAccessSecret")
+        return Response(status_code=400, content='Missing AWSAccessSecret')
     if (region := cookie.Region) is None:
-        return Response(status_code=400, content="Missing AWS Region")
+        return Response(status_code=400, content='Missing AWS Region')
 
     # Delete the resource
     try:
