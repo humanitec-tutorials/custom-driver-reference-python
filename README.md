@@ -1,7 +1,7 @@
 # Humanitec Custom Resource Driver - Reference implementation
 
 This is a **reference** implementation of a custom *Driver* for Humanitec.
-Like the built-in AWS driver, the reference implementatioin deploys a new S3 bucket on demand.
+Like the built-in AWS driver, the reference implementation deploys a new S3 bucket on demand.
 
 To test it out, you'll need to deploy it as a public facing webserver, and then register it through the Humanitec API.
 To learn more about registering drivers checkout the [documentation](https://docs.humanitec.com/integrations/create-own-resource-driver).
